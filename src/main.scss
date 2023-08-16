@@ -8,6 +8,13 @@
 
 @font-face {
   font-family: "SF Pro Text";
+  src: url('./common/fonts/SFProText-Bold.ttf');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
   src: url('./common/fonts/SFProText-Medium.ttf');
   font-weight: 500;
   font-style: normal;

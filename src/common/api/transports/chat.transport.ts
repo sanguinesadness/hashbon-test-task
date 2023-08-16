@@ -1,5 +1,4 @@
-import { API_URL } from 'common/constants';
-import { ApiEndpoints } from 'common/constants/api-endpoints.ts';
+import { API_URL, ApiEndpoints } from 'common/constants';
 import { SendMessageRequestModel } from '../models';
 
 export function sendMessage(

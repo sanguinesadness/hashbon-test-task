@@ -1,0 +1,12 @@
+.message-with-avatar {
+  display: flex;
+  gap: 12px;
+
+  &--right-handed {
+    margin-left: auto;
+  }
+
+  &--left-handed {
+    margin-right: auto;
+  }
+}
