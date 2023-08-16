@@ -1,0 +1,14 @@
+@mixin chat-shadowed-card() {
+  border-radius: 16px;
+  border: 1px solid #FFF;
+  background: #FFF;
+  box-shadow: 0px 2px 31px 13px rgba(10, 63, 142, 0.08);
+}
+
+.chat {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 781px;
+}

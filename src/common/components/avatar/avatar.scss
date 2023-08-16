@@ -1,0 +1,18 @@
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 24px;
+  background: #007AFE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--action {
+    cursor: pointer;
+    transition: 150ms ease all;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

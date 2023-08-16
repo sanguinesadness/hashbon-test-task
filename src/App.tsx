@@ -7,7 +7,9 @@ function App() {
       <div className="content">
         <span className="content__title">Bot Chat</span>
         <span className="content__description">AI-based service</span>
-        <Chat />
+        <div className="content__chat-wrapper">
+          <Chat />
+        </div>
       </div>
     </div>
   );
