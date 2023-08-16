@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { messagesTransport, SendMessageRequestModel } from 'common/api';
+import { ChangeEvent, useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState<string>('');
+
+  const handleMessageChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setMessage(e.target.value);
+  };
+
+  const handleMessageSend = (): void => {
+    const payload = new SendMessageRequestModel({ message });
+    void messagesTransport.sendMessage(payload);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <input placeholder="Message..." onChange={handleMessageChange} />
+      <button onClick={handleMessageSend}>Send message</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
