@@ -1,0 +1,22 @@
+.app {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.content {
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__title {
+    font-size: 57.695px;
+    font-weight: 700;
+  }
+
+  &__description {
+    font-size: 18.211px;
+    font-weight: 400;
+  }
+}

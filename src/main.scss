@@ -1,0 +1,29 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('./common/fonts/SFProText-Medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  src: url('./common/fonts/SFProText-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Open Sans';
+  font-size: 18px;
+  background-size: cover;
+  background: url("./common/assets/background.png") no-repeat center center;
+  height: 100vh;
+}
