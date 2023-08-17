@@ -16,6 +16,10 @@
     }
   }
 
+  &--disabled {
+    opacity: 0.5;
+  }
+
   &__icon-abbr {
     color: #065EBC;
     font-family: "SF Pro Text";

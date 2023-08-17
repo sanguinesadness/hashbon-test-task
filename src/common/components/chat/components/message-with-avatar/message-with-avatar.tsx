@@ -2,6 +2,7 @@ import * as classNames from 'classnames';
 import { RobotIcon } from 'common/assets';
 import { Avatar } from 'common/components';
 import { ColorsBasicEnum, MessageSenderType } from 'common/constants';
+import { animated, useSpring } from 'react-spring';
 import { MessageWrapper } from '../message-wrapper';
 import './message-with-avatar.scss';
 
@@ -17,8 +18,15 @@ export const MessageWithAvatar = ({
   const isBot = type === MessageSenderType.BOT;
   const isUser = type === MessageSenderType.USER;
 
+  const springProps = useSpring({
+    opacity: 1,
+    transform: 'scale(1)',
+    from: { opacity: 0, transform: 'scale(0.5)' }
+  });
+
   return (
-    <div
+    <animated.div
+      style={springProps}
       className={classNames('message-with-avatar', {
         'message-with-avatar--right-handed': isUser,
         'message-with-avatar--left-handed': isBot
@@ -45,6 +53,6 @@ export const MessageWithAvatar = ({
           <Avatar bgColor={ColorsBasicEnum.LIGHT_BLUE} iconAbbr="T" />
         </>
       )}
-    </div>
+    </animated.div>
   );
 };

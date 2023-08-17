@@ -14,10 +14,10 @@ export class Message implements TMessage {
   timestamp!: number;
   type!: MessageSenderType;
 
-  constructor(data: Pick<Message, 'content' | 'type'>) {
-    this.id = v4();
-    this.content = data.content;
-    this.type = data.type;
+  constructor(data: Partial<Omit<Message, 'timestamp'>>) {
+    this.id = data.id ?? v4();
+    this.content = data.content ?? '';
+    this.type = data.type ?? MessageSenderType.BOT;
     this.timestamp = new Date(Date.now()).getTime();
   }
 }

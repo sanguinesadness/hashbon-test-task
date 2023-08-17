@@ -2,10 +2,16 @@
 
 .communication-block {
   min-height: 100px;
+  max-height: 560px;
   padding: 30px 14px 30px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @include chat-shadowed-card();
 }

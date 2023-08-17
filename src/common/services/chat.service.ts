@@ -10,15 +10,22 @@ class ChatService {
   private _messages: BehaviorSubject<Array<Message>> = new BehaviorSubject<
     Array<Message>
   >([]);
+  private _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   public currentMessage$: Observable<string> =
     this._currentMessage.asObservable();
   public messages$: Observable<Array<Message>> = this._messages.asObservable();
   public messagesSorted$: Observable<Array<Message>> = this.messages$.pipe(
     map((messages) =>
-      messages.slice().sort((a, b) => a.timestamp - b.timestamp)
+      messages
+        .slice()
+        .filter((msg) => !!msg.content)
+        .sort((a, b) => a.timestamp - b.timestamp)
     )
   );
+  public isLoading$: Observable<boolean> = this._isLoading.asObservable();
 
   private updateCurrentMessage(
     callbackOrValue: ((value: string) => string) | string
@@ -35,8 +42,24 @@ class ChatService {
     this._messages.next([...messages, value]);
   }
 
+  private updateMessage(id: string, content: string): void {
+    const messages = this._messages.value;
+    const newMessages = messages.map((msg: Message) => {
+      if (msg.id === id) {
+        return new Message({ ...msg, content: content });
+      }
+      return msg;
+    });
+    this._messages.next(newMessages);
+  }
+
   public init(): void {
-    this._currentMessage.next(BOT_INIT_MESSAGE);
+    this.addMessage(
+      new Message({
+        type: MessageSenderType.BOT,
+        content: BOT_INIT_MESSAGE
+      })
+    );
   }
 
   public reset(): void {
@@ -48,16 +71,18 @@ class ChatService {
     if (!message) {
       return Promise.reject();
     }
+    this._isLoading.next(true);
 
-    if (this._currentMessage.value) {
-      this.addMessage(
-        new Message({
-          type: MessageSenderType.BOT,
-          content: this._currentMessage.value
-        })
-      );
-      this._currentMessage.next('');
-    }
+    // // Remove current message, add it to message history
+    // if (this._currentMessage.value) {
+    //   this.addMessage(
+    //     new Message({
+    //       type: MessageSenderType.BOT,
+    //       content: this._currentMessage.value
+    //     })
+    //   );
+    //   this._currentMessage.next('');
+    // }
 
     this.addMessage(
       new Message({
@@ -66,22 +91,39 @@ class ChatService {
       })
     );
 
+    const newBotMessage = new Message({
+      type: MessageSenderType.BOT,
+      content: ''
+    });
+    this.addMessage(newBotMessage);
+
     const payload = new SendMessageRequestModel({ message });
-    return sendMessage(payload).then(
-      (resp: ReadableStream<Uint8Array> | null) => {
+    return sendMessage(payload)
+      .then((resp: ReadableStream<Uint8Array> | null) => {
         const writableStream = new WritableStream({
-          write: (chunk: BufferSource) => {
-            processChunk(chunk, (value: string) =>
-              this.updateCurrentMessage((prev: string) => {
-                return prev.concat(value);
-              })
+          write: async (chunk: BufferSource) => {
+            await processChunk(
+              chunk,
+              (value: string) =>
+                this.updateCurrentMessage((prev: string) => {
+                  return prev.concat(value);
+                }),
+              () => {
+                this.updateMessage(
+                  newBotMessage.id,
+                  this._currentMessage.value
+                );
+                this._currentMessage.next('');
+              }
             );
           }
         });
 
         void resp?.pipeTo(writableStream);
-      }
-    );
+      })
+      .finally(() => {
+        this._isLoading.next(false);
+      });
   }
 }
 
