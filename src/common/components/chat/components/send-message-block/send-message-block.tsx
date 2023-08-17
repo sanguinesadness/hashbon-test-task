@@ -2,14 +2,15 @@ import { SendIcon } from 'common/assets';
 import { Avatar, TextInput } from 'common/components';
 import { chatService } from 'common/services';
 import { KeyboardEvent, useState } from 'react';
-import './send-message-window.scss';
+import './send-message-block.scss';
 
-export const SendMessageWindow = (): JSX.Element => {
+export const SendMessageBlock = (): JSX.Element => {
   const [message, setMessage] = useState<string>('');
 
   const handleSendMessage = (): void => {
     if (message) {
       void chatService.requestMessageSend(message);
+      setMessage('');
     }
   };
 
@@ -20,7 +21,7 @@ export const SendMessageWindow = (): JSX.Element => {
   };
 
   return (
-    <div className="send-message-window">
+    <div className="send-message-block">
       <TextInput
         value={message}
         onChange={setMessage}

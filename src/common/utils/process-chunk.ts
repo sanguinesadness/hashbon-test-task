@@ -13,13 +13,13 @@ export function processChunk(
 
     try {
       const chunk = JSON.parse(buffer) as TMessageChunk;
-      if (chunk.status === MessageChunkStatus.CONTENT && chunk.value) {
+      if (chunk.status === MessageChunkStatus.CONTENT) {
         console.log(
           new Date(Date.now()).getTime(),
           'Received chunk value:',
           chunk.value
         );
-        onContent(chunk.value);
+        chunk.value && onContent(chunk.value);
       } else if (chunk.status === MessageChunkStatus.DONE) {
         console.log('End of chunks.');
         onDone && onDone();
