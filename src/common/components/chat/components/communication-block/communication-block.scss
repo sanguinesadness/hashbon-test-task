@@ -15,20 +15,20 @@
   @include chat-shadowed-card();
 }
 
-@media (screen and max-height: 850px) {
+@media only screen and (max-height: 850px) {
   .communication-block {
     height: 310px;
   }
 }
 
-@media (screen and max-width: 840px) {
+@media only screen and (max-width: 840px) {
   .communication-block {
     height: auto;
     flex: 1;
   }
 }
 
-@media (screen and max-width: 480px) {
+@media only screen and (max-width: 480px) {
   .communication-block {
     padding: 20px 10px;
   }

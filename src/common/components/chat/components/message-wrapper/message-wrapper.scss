@@ -9,10 +9,12 @@
   align-content: center;
   gap: 10px;
   flex-wrap: wrap;
+  word-wrap: break-word;
+  word-break: break-word;
   color: #000;
 }
 
-@media (screen and max-width: 480px) {
+@media only screen and (max-width: 480px) {
   .message-wrapper {
     border-radius: 18px;
     padding: 8px 15px;

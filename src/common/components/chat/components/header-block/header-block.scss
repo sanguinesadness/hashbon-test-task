@@ -15,7 +15,7 @@
   }
 }
 
-@media (screen and max-width: 840px) {
+@media only screen and (max-width: 840px) {
   .header-block {
     flex-direction: row;
     align-items: center;

@@ -73,17 +73,6 @@ class ChatService {
     }
     this._isLoading.next(true);
 
-    // // Remove current message, add it to message history
-    // if (this._currentMessage.value) {
-    //   this.addMessage(
-    //     new Message({
-    //       type: MessageSenderType.BOT,
-    //       content: this._currentMessage.value
-    //     })
-    //   );
-    //   this._currentMessage.next('');
-    // }
-
     this.addMessage(
       new Message({
         type: MessageSenderType.USER,
