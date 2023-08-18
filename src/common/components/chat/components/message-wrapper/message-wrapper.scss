@@ -11,3 +11,10 @@
   flex-wrap: wrap;
   color: #000;
 }
+
+@media (screen and max-width: 480px) {
+  .message-wrapper {
+    border-radius: 18px;
+    padding: 8px 15px;
+  }
+}

@@ -1,8 +1,7 @@
 @import "../../chat";
 
 .communication-block {
-  min-height: 100px;
-  max-height: 560px;
+  height: 560px;
   padding: 30px 14px 30px 20px;
   display: flex;
   flex-direction: column;
@@ -16,9 +15,21 @@
   @include chat-shadowed-card();
 }
 
+@media (screen and max-height: 850px) {
+  .communication-block {
+    height: 310px;
+  }
+}
+
 @media (screen and max-width: 840px) {
   .communication-block {
-    max-height: unset;
+    height: auto;
     flex: 1;
+  }
+}
+
+@media (screen and max-width: 480px) {
+  .communication-block {
+    padding: 20px 10px;
   }
 }

@@ -9,3 +9,11 @@
 
   @include chat-shadowed-card();
 }
+
+
+@media (screen and max-width: 480px) {
+  .send-message-block {
+    height: auto;
+    padding: 10px 10px 10px 15px;
+  }
+}
