@@ -10,10 +10,11 @@ export const SendMessageBlock = (): JSX.Element => {
   const isLoading = useStore(chatService.isLoading$, false);
 
   const handleSendMessage = (): void => {
-    if (message) {
-      void chatService.requestMessageSend(message);
-      setMessage('');
+    if (!message || isLoading) {
+      return;
     }
+    void chatService.requestMessageSend(message);
+    setMessage('');
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {

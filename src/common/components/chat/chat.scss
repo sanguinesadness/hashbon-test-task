@@ -12,3 +12,9 @@
   gap: 30px;
   width: 781px;
 }
+
+@media (screen and max-width: 840px) {
+  .chat {
+    width: 100vw;
+  }
+}

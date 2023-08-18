@@ -15,3 +15,9 @@
 
   @include chat-shadowed-card();
 }
+
+@media (screen and max-height: 840px) {
+  .communication-block {
+    max-height: 380px;
+  }
+}

@@ -1,8 +1,8 @@
 import { BOT_INIT_MESSAGE, MessageSenderType } from 'common/constants';
 import { Message } from 'common/types';
+import { handleReadableStreamResponse } from 'common/utils';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { sendMessage, SendMessageRequestModel } from '../api';
-import { processChunk } from '../utils';
 
 class ChatService {
   private _currentMessage: BehaviorSubject<string> =
@@ -99,28 +99,19 @@ class ChatService {
 
     const payload = new SendMessageRequestModel({ message });
     return sendMessage(payload)
-      .then((resp: ReadableStream<Uint8Array> | null) => {
-        const writableStream = new WritableStream({
-          write: async (chunk: BufferSource) => {
-            await processChunk(
-              chunk,
-              (value: string) =>
-                this.updateCurrentMessage((prev: string) => {
-                  return prev.concat(value);
-                }),
-              () => {
-                this.updateMessage(
-                  newBotMessage.id,
-                  this._currentMessage.value
-                );
-                this._currentMessage.next('');
-              }
-            );
+      .then(
+        handleReadableStreamResponse(
+          (value: string) => {
+            this.updateCurrentMessage((prev: string) => {
+              return prev.concat(value);
+            });
+          },
+          () => {
+            this.updateMessage(newBotMessage.id, this._currentMessage.value);
+            this._currentMessage.next('');
           }
-        });
-
-        void resp?.pipeTo(writableStream);
-      })
+        )
+      )
       .finally(() => {
         this._isLoading.next(false);
       });
